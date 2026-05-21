@@ -1,10 +1,28 @@
-// Smooth scroll button
-function scrollToSection(id) {
-  document.getElementById(id).scrollIntoView();
-}
+<script>
+const form = document.querySelector("form");
 
-// Fake form submission (active feature)
-document.getElementById("contactForm").addEventListener("submit", function(e){
+form.addEventListener("submit", async function(e) {
   e.preventDefault();
-  alert("Message sent successfully!");
+
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    message: form.message.value
+  };
+
+  const response = await fetch("https://formspree.io/f/xvzykgkw", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (response.ok) {
+    alert("Message sent successfully!");
+    form.reset();
+  } else {
+    alert("Failed to send message.");
+  }
 });
+</script>
